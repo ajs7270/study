@@ -198,6 +198,7 @@
 시작 시간 5:52분 투자할 수 있는 시간 ch당 20분 적어도 4시간 걸림
 ch 당 10분씩 줌 -> 1시간 40분에 끝냄 방법(속독, 속타)
 
+ # 분석단계(Elaboration)
   ## UML Class Diagram
   * Objedct - 제목에 밑줄을 그어 표현(스냅샷 느낌)
   * Class - attributes, operations로 구성
@@ -227,4 +228,143 @@ ch 당 10분씩 줌 -> 1시간 40분에 끝냄 방법(속독, 속타)
   * 명사를 Class로 만들어라
   * 형용사는 attribute value로 만들어라
   * 동사는 Operation으로 만들어라
-  
+
+  ## System Sequence Diagram(SSD)
+  * 어떻게 만들까?
+    1. 도메인 모델을 만듦
+    2. how가 아니라 what에 대한 정보를 찾음
+  * 왜 만들까?
+    1. 외부 이벤트를 정확하게 알기 위해서
+    * actor에 의한 외부 이벤트, 타이머 이벤트, faults or exceptions을 포함해야 함
+
+  * Operation Contract
+    * Operation
+      * System Operation
+        * Operations that the system as a black box component offers in its public interface
+      * System Interfaces
+        * entire set of system operations across all user cases
+    * Cross Reference
+    * Preconditions
+    * Postcondition
+      * 도메인 모델 상태가 어떻게 변화가 되는지를 나타냄
+      * 과거형으로 작성
+      * 동작
+        * instance creation and Deletion
+        * Attribute modification
+        * Associations Formed and Broken
+  * 언제 Contract를 사용할 것인가?
+   1. SSD로 표현 가능한것들 중 대부분은 UseCase로 커버 가능
+   2. UseCase로 커버 불가능 한 것들을 Contract로 분류하여 커버
+
+ ## Requirement to Design
+  * 지금까지는 OOA/D에 대한 내용이였다.
+  * 요구를 한번에 완벽하게 받아들이는 것은 불가능 하기 때문에 반복을 통하여 받아들인다.
+  * requirement의 80퍼센트정도를 알아냈을 때 elaboration을 그만둔다. 그 다음에 설계작업이나 구현작업을 시작한다.
+
+ ### 디자인 모델(Design Model)
+  * Layer 모델 - 레이어를 기반한 설계는 굉장히 간단하지만 효과적이다.
+    * 하위의 레이어는 상위의 레이어를 부를 수 없음
+    * strict layer
+      - 바로 아래 하위 레이어만 접근 가능
+    * relaxed layer
+      - 하위 모든레이어 접근 가능
+    * cohesion - 응집도 (높을 수록 좋음)
+    * coupling - 결합도 (낮을 수록 좋음) (GOD class가 있으면 안됨)
+    UI Layer 부터 점점 내려가면서 general해 진다.(위로 올라갈수로 Specific)
+    * Java에서는 Package마다 하나의 레이어가 들어가게 된다.
+    객체지향 설계에서 만든 Domain Model에서 추출하여 Design 단계에서 Class를 만들어 준다. Domain Model로 만들어진 Class들이 그대로 유지가 된다. 현실에 없는 DB나 Loding같은 디자인 단계에서만 나오는 것들도 다시 만들어진게 된다. 그런 것들은 디자인 단계에서 Domain Object라고 한다. 그런 것들이 모두 합쳐저서 비지니스 Logic이 완성되는 것이다.
+    * Architecture을 그릴 때 physical한 것과 logical한 것을 동시에 쓰지 않는다.
+
+    * 용어
+      * tier - physical한 것을 이야기함 (나머지는 다 logical함)
+      * layer - 추상화 내역에서 얼마나 더 specific 한지를 구분
+      * partition - 같은 레이어에 있더라도 클래스 들을 다시 나눠주는 것
+
+  * 소프트웨어 아키텍처?
+    * 소프트웨어 조직에 대한 중요한 결정을 내리는 Set 그것들의 behavior은 무엇인가?등
+
+
+ ## Object Design
+  * Dynamic model - 논리, 코드의 behavior, 함수의body를 디자인하는데 도움
+    * UML dynamic view interaction daigram을 만들면서 유용한 디자인이 일어난다.
+    * Interaction Diagrams - 메시지를 통해 어떠헥 상호작용하는지 설명
+      * Sequence Diagram
+        * Notation
+          * Lifeline boxes and lifelines
+            * interaction에 참가자를 표현
+            * 클래스의 인스턴스라고 정확히 말할 수는 없지만 실질적으로는 맞다.
+          * Messages
+            * return result를 보여줄 수 있는 두가지 방법
+               1. message syntax 이용
+               2. activiation bar 끝에 message line을 이용해서 return
+            * Synchronous message - response message를 받을 때 까지 기다린다.(실선 검은색 화살표)
+            * ASynchronous message - 안기다림 (실선 화살표)
+            * Response message(점선 화살표)
+          * Activation bar
+          * Message to "self" or "this"
+        * Fragment
+          * alt - Switch와 비슷
+          * opt - else 없는 opt와 비슷
+          * loop - 반복할 때 사용 (guard : 최소 반복 횟수가 끝났을때부터 시작 false면 break)
+          * break - 한개의 operand를 가지고
+          * seq - 여러가지 순서 가능
+          * strict - 순서는 고정
+          * par - 서로 같은곳의 순서는 중요 다른곳끼리는 안중요
+          * critical - 요사이 다른애 개입 불가       
+        * polymorphism의 표현
+          * muliple sequence diagrams 사용
+        * Active Object
+          * 각 인스턴스는 실행되며 실행스레드를 제어
+      * Communication diagram
+        * 표기법
+          * link - 두 객체사이 navigation과 visibility를 표현하는 두 객체사이의 연결 경로
+          * 모든 메시지는 같은 라인에서 흘러감
+          * Message Numbering Sequence - 메시지 순서를 sequence number로 표현가능
+          * Conditional Message - 조건문이 있을때 참일때만 보내짐
+        * 인스턴스 생성
+          * create라는 메시지 사용
+
+  * Static model - 패키지, 크래스이름, 특징, 함수 시그니쳐를 저으이하는 데 도움
+    * UML class diagram
+      * 사용처
+        * Domain model - 개념적 관점
+          * Association Name은 표시하지만 naviation arrows를 피한다.
+          (도메인 모델은 소프트웨어적 관점이 아니기 때문)
+        * Design Class Diagram(DCD) - 디자인 관점
+          * UML specification을 따른다.
+        * Dependency
+          * 소스가 타겟을 알고있는 경우
+          * 표현법
+            * Dependendcy line을 그린다.
+  * Test-Driven or Test-First Development
+    * 코드를 테스트하기 전에 단위 테스트 코드를 작성하고, 개발자는 모든 production 코드에 대한 단위 테스트 코드를 작성한다.
+    
+  * OOD(Object Oriented Design)
+    * 객체지향 설계 원칙 - 책임을 누구한테 줄것인지
+      * GRASP(General Responsibililty Assignment Software Patterns)
+        * interaction Diagram을 그릴 때 우리는 객체에 할당할 책임을 결정한다.
+        * 누가 어떤 객체를 create 할지
+        * 원칙
+          * Creater*
+          * Controller*
+          * Pure Fabrication(제작)
+          * Information Expert*
+          * High Cohesion*
+          * Indirection
+          * Low Coupling*
+          * Ploymorphism
+          * Protected Variations
+      * GoF Design Patterns
+    * 접근
+      * responsibility-driven design(RDD)
+        * 객체의 디자인에 더해 더 큰 규모의 구성요소를 생각, 책임, 협력의 관점에서 생각
+        * 객체가 책임을 가지고있다고 보고 그들이 하는일을 추상화
+        * 책임 (Responsibility)
+          * Doing
+            * 스스로 무언가를 함
+            * 다른 개체에 작업을 시작
+            * 기타 개체의 확옹을 동기화 및 제어
+          * Knowing
+            * Encapsulated data
+            * related objects
+            * 해당개체가 유도하거나 계산할 수 있는 것에 대해 아는
