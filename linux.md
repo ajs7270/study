@@ -58,6 +58,7 @@ open, read, write, close, wait, exec, fork, exit, kill
 ```
 
 ### System call major categories (6가지)
+* **Process Control** (create, terminate, load, excute, get/set process attribute, wait for time/event/signal evnet, allocate and free memory)
 * **File management** (create, delete, open, close, read, write, repositioin, get/set file attributes)
 * **Device management** (requests, release, read, write, reposition, get/set device attributes, logically attach or detach)
 * **Information maintenance** (get/set time, date, systemdata, process, file, device attributes)
@@ -70,7 +71,7 @@ open, read, write, close, wait, exec, fork, exit, kill
 
 ## Kernel data structure
 ### Red Block tree Properties (4가지)
-* tpye of self-balancing binary search tree
+* type of self-balancing binary search tree
 * Nodes: red or black
 * Leaves: black, no data
 * The path from node to one of its leaves contains the same number of black nodes as the shortest path to any of its other leaves
@@ -182,15 +183,15 @@ mutex_is_locked(struct mutex *) // Returns one if the lock is locked and zero ot
 
 ## Scheduling
 ### Scheduling 의 목표 (4가지)
-* Utilization : Keep the CPU busy with useful work as much as possible
-* Throughput : Maximize the number of jobs processed per time unit
-* Turnaround time : Minimize the time between submission of a task and its completion
-* Fairness : Make sure each task gets a fair share of the CPU
+* Utilization : Keep the CPU busy with useful work as ch as possible
+* Throughput : Maximize the number of jobs processed   time unit
+* Turnaround time : Minimize the time between submiss  of a task and its completion
+* Fairness : Make sure each task gets a fair share of e CPU
 
 ### Scheduling의 발전 (4단계) 
 1. Batch Processing OS : Improved Throuput
-    * Priority-based scheduling and Round Robin Scheduling
-2. Time Shared Interative OS : Balance between Interactivity and Throughput
+    * Priority-based scheduling and Round Robin Sched ng
+2. Time Shared Interative OS : Balance between Intera vity and Throughput
     * O(N) Queue Scheduling
 3. Real-Time OS : Bounded Scheduling Latency
     * O(1) Queue Scheduling, Preemptive Priority Scheduling
