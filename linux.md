@@ -70,7 +70,7 @@ open, read, write, close, wait, exec, fork, exit, kill
 ![캡처](https://i.imgur.com/QaIvl9S.png)
 
 ## Kernel data structure
-### Red Block tree Properties (4가지)
+### Red Block tree Properties (5가지)
 * type of self-balancing binary search tree
 * Nodes: red or black
 * Leaves: black, no data
@@ -190,7 +190,7 @@ mutex_is_locked(struct mutex *) // Returns one if the lock is locked and zero ot
 
 ### Scheduling의 발전 (4단계) 
 1. Batch Processing OS : Improved Throuput
-    * Priority-based scheduling and Round Robin Sched ng
+    * Priority-based scheduling and Round Robin Scheduling
 2. Time Shared Interative OS : Balance between Intera vity and Throughput
     * O(N) Queue Scheduling
 3. Real-Time OS : Bounded Scheduling Latency
